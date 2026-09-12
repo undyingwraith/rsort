@@ -7,14 +7,9 @@ pub fn bubble_sort<T: Clone + Copy>(input: &[T], compare: fn(a: T, b: T) -> Diff
 	while !sorted {
 		sorted = true;
 		for i in 0..(len - 1) {
-			match compare(list[i], list[i + 1]) {
-				Difference::Larger => {
-					let t = list[i];
-					list[i] = list[i + 1];
-					list[i + 1] = t;
-					sorted = false;
-				}
-				_ => {}
+			if let Difference::Larger = compare(list[i], list[i + 1]) {
+				list.swap(i, i + 1);
+				sorted = false;
 			}
 		}
 	}
