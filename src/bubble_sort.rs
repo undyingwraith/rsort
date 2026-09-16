@@ -1,13 +1,19 @@
-use crate::Difference;
+use std::cmp::Ord;
 
-pub fn bubble_sort<T: Clone + Copy>(input: &[T], compare: fn(a: T, b: T) -> Difference) -> Vec<T> {
+use crate::Order;
+
+pub fn bubble_sort<T: Clone + Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
+	let should_swap: fn(T, T) -> bool = match order {
+		Order::Ascending => |a, b| a > b,
+		Order::Descending => |a, b| a < b,
+	};
 	let mut sorted = false;
 	let mut list = input.to_vec();
 	let len = input.len();
 	while !sorted {
 		sorted = true;
-		for i in 0..(len - 1) {
-			if let Difference::Larger = compare(list[i], list[i + 1]) {
+		for i in 0..=(len - 2) {
+			if should_swap(list[i], list[i + 1]) {
 				list.swap(i, i + 1);
 				sorted = false;
 			}
@@ -21,20 +27,23 @@ pub fn bubble_sort<T: Clone + Copy>(input: &[T], compare: fn(a: T, b: T) -> Diff
 mod tests {
 	use super::*;
 
+	use crate::testing::{UNSORTED_LIST, check_asc, check_desc};
+
 	#[test]
 	fn can_sort() {
-		let list = Vec::from([4, 3, 5, 1, 6, 2, 7, 9, 8]);
-		let sorted = bubble_sort(&list, |a, b| (a - b).into());
+		let list = Vec::from(UNSORTED_LIST);
+		let sorted = bubble_sort(&list, Order::Ascending);
 
 		assert_eq!(sorted.len(), list.len());
-		assert_eq!(sorted[0], 1);
-		assert_eq!(sorted[1], 2);
-		assert_eq!(sorted[2], 3);
-		assert_eq!(sorted[3], 4);
-		assert_eq!(sorted[4], 5);
-		assert_eq!(sorted[5], 6);
-		assert_eq!(sorted[6], 7);
-		assert_eq!(sorted[7], 8);
-		assert_eq!(sorted[8], 9);
+		check_asc(sorted);
+	}
+
+	#[test]
+	fn can_sort_descending() {
+		let list = Vec::from(UNSORTED_LIST);
+		let sorted = bubble_sort(&list, Order::Descending);
+
+		assert_eq!(sorted.len(), list.len());
+		check_desc(sorted);
 	}
 }

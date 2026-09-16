@@ -4,20 +4,10 @@ pub use crate::selection_sort::selection_sort;
 mod bubble_sort;
 mod selection_sort;
 
-pub enum Difference {
-	Larger,
-	Smaller,
-	Same,
+pub enum Order {
+	Ascending,
+	Descending,
 }
 
-impl From<i32> for Difference {
-	fn from(i: i32) -> Self {
-		if i > 0 {
-			Difference::Larger
-		} else if i < 0 {
-			Difference::Smaller
-		} else {
-			Difference::Same
-		}
-	}
-}
+#[cfg(test)]
+mod testing;
