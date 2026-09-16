@@ -19,10 +19,3 @@ impl From<i32> for Difference {
 		}
 	}
 }
-
-/*
-11 - 5 = Larger -> swap
-
-*/
-
-//https://www.youtube.com/watch?v=ixXOUeBOPJw
