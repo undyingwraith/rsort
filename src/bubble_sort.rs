@@ -2,7 +2,7 @@ use std::cmp::Ord;
 
 use crate::Order;
 
-pub fn bubble_sort<T: Clone + Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
+pub fn bubble_sort<T: Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	let should_swap: fn(T, T) -> bool = match order {
 		Order::Ascending => |a, b| a > b,
 		Order::Descending => |a, b| a < b,
@@ -21,6 +21,16 @@ pub fn bubble_sort<T: Clone + Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	}
 
 	list
+}
+
+pub trait BubbleSortable<T: Copy + Ord> {
+	fn bubble_sort(&self, order: Order) -> Self;
+}
+
+impl<T: Copy + Ord> BubbleSortable<T> for Vec<T> {
+	fn bubble_sort(&self, order: Order) -> Vec<T> {
+		bubble_sort(self, order)
+	}
 }
 
 #[cfg(test)]
@@ -45,5 +55,14 @@ mod tests {
 
 		assert_eq!(sorted.len(), list.len());
 		check_desc(sorted);
+	}
+
+	#[test]
+	fn can_sort_via_trait() {
+		let list = Vec::from(UNSORTED_LIST);
+		let sorted = list.bubble_sort(Order::Ascending);
+
+		assert_eq!(sorted.len(), list.len());
+		check_asc(sorted);
 	}
 }
