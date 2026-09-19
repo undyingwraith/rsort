@@ -8,7 +8,7 @@ pub fn merge_sort<T: Copy + Ord>(input: &[T], order: &Order) -> Vec<T> {
 		return input.to_vec();
 	}
 
-	let mid = ((len - 1) / 2) as usize;
+	let mid: usize = (len - 1) / 2;
 
 	let a_vec = &input.to_vec()[0..=mid];
 	let b_vec = &input.to_vec()[mid + 1..input.len()];
