@@ -2,6 +2,17 @@ use std::cmp::Ord;
 
 use crate::Order;
 
+/// Sorts using a insertion sort algorithm.
+///
+/// Example
+/// ```rust
+/// use rsort::{Order, insertion_sort};
+///
+/// let unsorted = Vec::from([3,2,1]);
+/// let sorted = insertion_sort(&unsorted, Order::Ascending);
+///
+/// assert_eq!(sorted, Vec::from([1, 2, 3]));
+/// ```
 pub fn insertion_sort<T: Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	let compare: fn(T, T) -> bool = match order {
 		Order::Ascending => |a, b| a > b,
@@ -25,7 +36,9 @@ pub fn insertion_sort<T: Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	list
 }
 
+/// Type can be sorted using the insertion sort algorithm.
 pub trait InsertionSortable<T: Copy + Ord> {
+	/// Sort items using insertion sort.
 	fn insertion_sort(&self, order: Order) -> Self;
 }
 

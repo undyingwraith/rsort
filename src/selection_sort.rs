@@ -2,6 +2,17 @@ use std::cmp::Ord;
 
 use crate::Order;
 
+/// Sorts using a selection sort algorithm.
+///
+/// Example
+/// ```rust
+/// use rsort::{Order, selection_sort};
+///
+/// let unsorted = Vec::from([3,2,1]);
+/// let sorted = selection_sort(&unsorted, Order::Ascending);
+///
+/// assert_eq!(sorted, Vec::from([1, 2, 3]));
+/// ```
 pub fn selection_sort<T: Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	let compare: fn(T, T) -> bool = match order {
 		Order::Ascending => |a, b| a > b,
@@ -23,7 +34,9 @@ pub fn selection_sort<T: Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	list
 }
 
+/// Type can be sorted using the selection sort algorithm.
 pub trait SelectionSortable<T: Copy + Ord> {
+	/// Sort items using selection sort.
 	fn selection_sort(&self, order: Order) -> Self;
 }
 

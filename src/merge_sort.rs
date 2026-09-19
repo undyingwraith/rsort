@@ -2,6 +2,17 @@ use std::cmp::Ord;
 
 use crate::Order;
 
+/// Sorts using a merge sort algorithm.
+///
+/// Example
+/// ```rust
+/// use rsort::{Order, merge_sort};
+///
+/// let unsorted = Vec::from([3,2,1]);
+/// let sorted = merge_sort(&unsorted, &Order::Ascending);
+///
+/// assert_eq!(sorted, Vec::from([1, 2, 3]));
+/// ```
 pub fn merge_sort<T: Copy + Ord>(input: &[T], order: &Order) -> Vec<T> {
 	let len = input.len();
 	if len == 1 {
@@ -60,7 +71,9 @@ fn merge<T: Copy + Ord>(a: &[T], b: &[T], order: &Order) -> Vec<T> {
 	list
 }
 
+/// Type can be sorted using the merge sort algorithm.
 pub trait MergeSortable<T: Copy + Ord> {
+	/// Sort items using merge sort.
 	fn merge_sort(&self, order: Order) -> Self;
 }
 

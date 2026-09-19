@@ -2,6 +2,17 @@ use std::cmp::Ord;
 
 use crate::Order;
 
+/// Sorts using a bubble sort algorithm.
+///
+/// Example
+/// ```rust
+/// use rsort::{Order, bubble_sort};
+///
+/// let unsorted = Vec::from([3,2,1]);
+/// let sorted = bubble_sort(&unsorted, Order::Ascending);
+///
+/// assert_eq!(sorted, Vec::from([1, 2, 3]));
+/// ```
 pub fn bubble_sort<T: Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	let should_swap: fn(T, T) -> bool = match order {
 		Order::Ascending => |a, b| a > b,
@@ -23,7 +34,9 @@ pub fn bubble_sort<T: Copy + Ord>(input: &[T], order: Order) -> Vec<T> {
 	list
 }
 
+/// Type can be sorted using the bubble sort algorithm.
 pub trait BubbleSortable<T: Copy + Ord> {
+	/// Sort items using bubble sort.
 	fn bubble_sort(&self, order: Order) -> Self;
 }
 
